@@ -5,7 +5,7 @@ from datetime import datetime
 import os
 
 # Initialize the Slack API client with your OAuth token
-slack_token = os.environ["SOME_SECRET"]
+slack_token = os.environ["SLACK_TOKEN"]
 client = WebClient(token=slack_token)
 
 # Define the channel and the message you want to send
