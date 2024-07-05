@@ -2,6 +2,7 @@
 
 from slack import WebClient
 from datetime import datetime
+import os
 
 # Initialize the Slack API client with your OAuth token
 slack_token = os.environ["SOME_SECRET"]
