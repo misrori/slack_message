@@ -10,7 +10,7 @@ client = WebClient(token=slack_token)
 
 # Define the channel and the message you want to send
 channel = "#rsi_lower_30"  # Replace with the name of your channel or its ID
-message = f"Hello, Goldhand!{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"
+message = f"Hello, Goldhand!{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n {os.getcwd()}"
 
 # Send the message to the specified channel
 response = client.chat_postMessage(channel=channel, text=message)
