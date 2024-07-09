@@ -20,3 +20,9 @@ if response["ok"]:
     print(f"Message sent to {channel}: {message}")
 else:
     print(f"Failed to send the message: {response['error']}")
+    
+    
+import pandas as pd
+import os
+tw = Tw()
+tw.stock.to_csv(f"{os.getcwd()}/data/{datetime.now().strftime('stock_%Y_%m_%d_%H_%M_%S')}.csv", index=False)
