@@ -24,5 +24,7 @@ else:
     
 import pandas as pd
 import os
+from goldhand import *
+
 tw = Tw()
 tw.stock.to_csv(f"{os.getcwd()}/data/{datetime.now().strftime('stock_%Y_%m_%d_%H_%M_%S')}.csv", index=False)
