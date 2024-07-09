@@ -21,12 +21,15 @@ if response["ok"]:
 else:
     print(f"Failed to send the message: {response['error']}")
     
+import pandas as pd
+
 data = {
     'Name': ['Alice', 'Bob', 'Charlie'],
     'Age': [25, 30, 35],
     'City': ['New York', 'Los Angeles', 'Chicago']
 }
 
+df = pd.DataFrame(data)
 data.to_csv(f"{os.getcwd()}/data/{datetime.now().strftime('stock_%Y_%m_%d_%H_%M_%S')}.csv", index=False)
     
     
