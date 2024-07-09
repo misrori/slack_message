@@ -1,55 +1,35 @@
-name: run main.py
+name: Push File Example
 
 on:
   push:
     branches:
       - main  # Change this to your default branch if it's not 'main'
-      
+
 jobs:
-  build:
+  push-file:
     runs-on: ubuntu-latest
+
     steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: checkout repo content
-        uses: actions/checkout@v2 # checkout the repository content to github runner
+    - name: Create or modify a file
+      run: |
+        echo "This is a new file" > newfile.txt
+        # You can use any shell command to create or modify files here
 
-      - name: setup python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9' # install the python version needed
-          
-      - name: install python packages
-        run: |
-          python -m pip install --upgrade pip
-          pip install slackclient
-          pip install goldhand
-          pip install pandas
-          pip install numpy
+    - name: Configure Git
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-    
-      - name: execute py script # run main.py
-        env:
-          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-        run: python sender.py
+    - name: Commit changes
+      run: |
+        git add newfile.txt
+        git commit -m "Add newfile.txt"
 
-      - name: Create or modify a file
-        run: |
-          echo "This is a new file" > newfile.txt
-          # You can use any shell command to create or modify files here
-
-      - name: Configure Git
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
-      - name: Commit changes
-        run: |
-          git add newfile.txt
-          git commit -m "Add newfile.txt"
-
-      - name: Push changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: |
-          git push
-
+    - name: Push changes
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git push
