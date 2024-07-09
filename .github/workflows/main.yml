@@ -1,8 +1,10 @@
 name: run main.py
 
 on:
-  schedule:
-    - cron: '*/5 * * * *' # At 00:00 on Monday
+  push:
+    branches:
+      - main  # Change this to your default branch if it's not 'main'
+
 
 jobs:
   build:
@@ -31,15 +33,24 @@ jobs:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         run: python sender.py
 
-      - name: commit files
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add -A
-          git diff-index --quiet HEAD || (git commit -a -m "updated logs" --allow-empty)
-          
-      - name: push changes
-        uses: ad-m/github-push-action@v0.6.0
-        with:
-          github_token: ${{ secrets.GH_TOKEN }}
-          branch: main
+    - name: Create or modify a file
+      run: |
+        echo "This is a new file" > newfile.txt
+        # You can use any shell command to create or modify files here
+
+    - name: Configure Git
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Commit changes
+      run: |
+        git add newfile.txt
+        git commit -m "Add newfile.txt"
+
+    - name: Push changes
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      run: |
+        git push
+
