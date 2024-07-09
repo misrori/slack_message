@@ -30,7 +30,7 @@ data = {
 }
 
 df = pd.DataFrame(data)
-data.to_csv(f"{os.getcwd()}/data/{datetime.now().strftime('stock_%Y_%m_%d_%H_%M_%S')}.csv", index=False)
+df.to_csv(f"{os.getcwd()}/data/{datetime.now().strftime('stock_%Y_%m_%d_%H_%M_%S')}.csv", index=False)
     
     
 #import pandas as pd
