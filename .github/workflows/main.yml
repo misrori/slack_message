@@ -1,4 +1,4 @@
-name: Push File Example
+name: run main.py
 
 on:
   push:
@@ -6,30 +6,42 @@ on:
       - main  # Change this to your default branch if it's not 'main'
 
 jobs:
-  push-file:
+  build:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
 
-    - name: Create or modify a file
-      run: |
-        echo "This is a new file" > newfile.txt
-        # You can use any shell command to create or modify files here
+      - name: checkout repo content
+        uses: actions/checkout@v3 # checkout the repository content to github runner
 
-    - name: Configure Git
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9' # install the python version needed
+          
+      - name: install python packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install slackclient
+          pip install goldhand
+          pip install pandas
+          pip install numpy
 
-    - name: Commit changes
-      run: |
-        git add newfile.txt
-        git commit -m "Add newfile.txt"
+    
+      - name: execute py script # run main.py
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+        run: python sender.py
 
-    - name: Push changes
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      run: |
-        git push
+      - name: commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff-index --quiet HEAD || (git commit -a -m "updated logs" --allow-empty)
+          
+      - name: push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          branch: main 
+
