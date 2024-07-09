@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main  # Change this to your default branch if it's not 'main'
-
-
+      
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -33,24 +32,24 @@ jobs:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         run: python sender.py
 
-    - name: Create or modify a file
-      run: |
-        echo "This is a new file" > newfile.txt
-        # You can use any shell command to create or modify files here
+      - name: Create or modify a file
+        run: |
+          echo "This is a new file" > newfile.txt
+          # You can use any shell command to create or modify files here
 
-    - name: Configure Git
-      run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-    - name: Commit changes
-      run: |
-        git add newfile.txt
-        git commit -m "Add newfile.txt"
+      - name: Commit changes
+        run: |
+          git add newfile.txt
+          git commit -m "Add newfile.txt"
 
-    - name: Push changes
-      env:
-        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-      run: |
-        git push
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          git push
 
