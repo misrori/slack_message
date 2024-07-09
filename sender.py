@@ -21,10 +21,18 @@ if response["ok"]:
 else:
     print(f"Failed to send the message: {response['error']}")
     
-    
-import pandas as pd
-import os
-from goldhand import *
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie'],
+    'Age': [25, 30, 35],
+    'City': ['New York', 'Los Angeles', 'Chicago']
+}
 
-tw = Tw()
-tw.stock.to_csv(f"{os.getcwd()}/data/{datetime.now().strftime('stock_%Y_%m_%d_%H_%M_%S')}.csv", index=False)
+data.to_csv(f"{os.getcwd()}/data/{datetime.now().strftime('stock_%Y_%m_%d_%H_%M_%S')}.csv", index=False)
+    
+    
+#import pandas as pd
+#import os
+#from goldhand import *
+
+#tw = Tw()
+#tw.stock.to_csv(f"{os.getcwd()}/data/{datetime.now().strftime('stock_%Y_%m_%d_%H_%M_%S')}.csv", index=False)
